@@ -1,0 +1,8 @@
+BETTER_AUTH_SECRET="91daa833264d17ca81c395b8abd22d1512896794c0732d18c176b9b0507cd03f"
+BETTER_AUTH_URL="http://localhost:3000"
+
+GOOGLE_CLIENT_ID="142218192401-vq62ev8gnpq04la513su8upbgdfqa1b6.apps.googleusercontent.com"
+GOOGLE_CLIENT_SECRET="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"
+GITHUB_CLIENT_ID="Iv23liwQyV4m7zVerJ1w"
+GITHUB_CLIENT_SECRET="40d5eec6d48eee1b791c284d4bf8b6fde0286bba"
+NEXT_PUBLIC_APP_URL="https://9000-firebase-jarvis-1747923459525.cluster-w5vd22whf5gmav2vgkomwtc4go.cloudworkstations.dev/?monospaceUid=585140&embedded=0"
