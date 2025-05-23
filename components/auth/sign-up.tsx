@@ -17,6 +17,7 @@ import { Loader2, X } from "lucide-react";
 import { signUp } from "@/lib/auth-client";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function SignUp() {
 	const [firstName, setFirstName] = useState("");
@@ -42,7 +43,7 @@ export default function SignUp() {
 	};
 
 	return (
-		<Card className="z-50 rounded-md rounded-t-none max-w-md">
+		<Card className="z-50 rounded-md max-w-md">
 			<CardHeader>
 				<CardTitle className="text-lg md:text-xl">Sign Up</CardTitle>
 				<CardDescription className="text-xs md:text-sm">
@@ -182,9 +183,15 @@ export default function SignUp() {
 				</div>
 			</CardContent>
 			<CardFooter>
-				<div className="flex justify-center w-full border-t py-4">
-					<p className="text-center text-xs text-neutral-500">
-						Secured by <span className="text-orange-400">better-auth.</span>
+				<div className="flex justify-center w-full">
+					<p className="text-center text-xs text-muted-foreground">
+						Already have an account?{" "}
+						<Link
+							href="/signin"
+							className="hover:underline"
+						>
+							<span className="text-primary">Sign In</span>
+						</Link>
 					</p>
 				</div>
 			</CardFooter>
