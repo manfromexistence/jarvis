@@ -19,9 +19,9 @@ import { MysqlDialect } from "kysely";
 import { createPool } from "mysql2/promise";
 import { nextCookies } from "better-auth/next-js";
 import { passkey } from "better-auth/plugins/passkey";
-import { expo } from "@better-auth/expo";
-import { stripe } from "@better-auth/stripe";
-import { Stripe } from "stripe";
+// import { expo } from "@better-auth/expo";
+// import { stripe } from "@better-auth/stripe";
+// import { Stripe } from "stripe";
 
 const from = process.env.BETTER_AUTH_EMAIL || "delivered@resend.dev";
 const to = process.env.TEST_EMAIL || "";
@@ -35,7 +35,7 @@ const mysql = process.env.USE_MYSQL
 	? new MysqlDialect(createPool(process.env.MYSQL_DATABASE_URL || ""))
 	: null;
 
-const dialect = process.env.USE_MYSQL ? mysql : libsql;
+const dialect:any = process.env.USE_MYSQL ? mysql : libsql;
 
 if (!dialect) {
 	throw new Error("No dialect found");
@@ -87,10 +87,10 @@ export const auth = betterAuth({
 		},
 	},
 	socialProviders: {
-		facebook: {
-			clientId: process.env.FACEBOOK_CLIENT_ID || "",
-			clientSecret: process.env.FACEBOOK_CLIENT_SECRET || "",
-		},
+		// facebook: {
+		// 	clientId: process.env.FACEBOOK_CLIENT_ID || "",
+		// 	clientSecret: process.env.FACEBOOK_CLIENT_SECRET || "",
+		// },
 		github: {
 			clientId: process.env.GITHUB_CLIENT_ID || "",
 			clientSecret: process.env.GITHUB_CLIENT_SECRET || "",
@@ -99,22 +99,22 @@ export const auth = betterAuth({
 			clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || "",
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
 		},
-		discord: {
-			clientId: process.env.DISCORD_CLIENT_ID || "",
-			clientSecret: process.env.DISCORD_CLIENT_SECRET || "",
-		},
-		microsoft: {
-			clientId: process.env.MICROSOFT_CLIENT_ID || "",
-			clientSecret: process.env.MICROSOFT_CLIENT_SECRET || "",
-		},
-		twitch: {
-			clientId: process.env.TWITCH_CLIENT_ID || "",
-			clientSecret: process.env.TWITCH_CLIENT_SECRET || "",
-		},
-		twitter: {
-			clientId: process.env.TWITTER_CLIENT_ID || "",
-			clientSecret: process.env.TWITTER_CLIENT_SECRET || "",
-		},
+		// discord: {
+		// 	clientId: process.env.DISCORD_CLIENT_ID || "",
+		// 	clientSecret: process.env.DISCORD_CLIENT_SECRET || "",
+		// },
+		// microsoft: {
+		// 	clientId: process.env.MICROSOFT_CLIENT_ID || "",
+		// 	clientSecret: process.env.MICROSOFT_CLIENT_SECRET || "",
+		// },
+		// twitch: {
+		// 	clientId: process.env.TWITCH_CLIENT_ID || "",
+		// 	clientSecret: process.env.TWITCH_CLIENT_SECRET || "",
+		// },
+		// twitter: {
+		// 	clientId: process.env.TWITTER_CLIENT_ID || "",
+		// 	clientSecret: process.env.TWITTER_CLIENT_SECRET || "",
+		// },
 	},
 	plugins: [
 		organization({
@@ -173,32 +173,32 @@ export const auth = betterAuth({
 				},
 			};
 		}),
-		stripe({
-			stripeClient: new Stripe(process.env.STRIPE_KEY || "sk_test_"),
-			stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET!,
-			subscription: {
-				enabled: true,
-				plans: [
-					{
-						name: "Starter",
-						priceId: STARTER_PRICE_ID.default,
-						annualDiscountPriceId: STARTER_PRICE_ID.annual,
-						freeTrial: {
-							days: 7,
-						},
-					},
-					{
-						name: "Professional",
-						priceId: PROFESSION_PRICE_ID.default,
-						annualDiscountPriceId: PROFESSION_PRICE_ID.annual,
-					},
-					{
-						name: "Enterprise",
-					},
-				],
-			},
-		}),
-		expo(),
+		// stripe({
+		// 	stripeClient: new Stripe(process.env.STRIPE_KEY || "sk_test_"),
+		// 	stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET!,
+		// 	subscription: {
+		// 		enabled: true,
+		// 		plans: [
+		// 			{
+		// 				name: "Starter",
+		// 				priceId: STARTER_PRICE_ID.default,
+		// 				annualDiscountPriceId: STARTER_PRICE_ID.annual,
+		// 				freeTrial: {
+		// 					days: 7,
+		// 				},
+		// 			},
+		// 			{
+		// 				name: "Professional",
+		// 				priceId: PROFESSION_PRICE_ID.default,
+		// 				annualDiscountPriceId: PROFESSION_PRICE_ID.annual,
+		// 			},
+		// 			{
+		// 				name: "Enterprise",
+		// 			},
+		// 		],
+		// 	},
+		// }),
+		// expo(),
 	],
 	trustedOrigins: ["exp://"],
 });
