@@ -168,7 +168,8 @@ export default function SignUp() {
 										toast.error(ctx.error.message);
 									},
 									onSuccess: async () => {
-										router.push("/dashboard");
+										// router.push("/dashboard");
+										toast.info("Sign Up Successful");
 									},
 								},
 							});
