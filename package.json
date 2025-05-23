@@ -10,6 +10,30 @@
     "registry:r-themes": "tsx src/scripts/generate-theme-registry.ts"
   },
   "dependencies": {
+    "@better-fetch/fetch": "catalog:",
+    "@libsql/client": "^0.12.0",
+    "@libsql/kysely-libsql": "^0.4.1",
+    "@number-flow/react": "^0.5.5",
+    "@prisma/adapter-libsql": "^5.22.0",
+    "@prisma/client": "^5.22.0",
+    "@react-email/components": "^0.0.25",
+    "@react-three/fiber": "^8.17.10",
+    "@types/better-sqlite3": "^7.6.12",
+    "better-call": "catalog:",
+    "better-sqlite3": "^11.6.0",
+    "canvas-confetti": "^1.9.3",
+    "consola": "^3.2.3",
+    "crypto": "^1.0.1",
+    "kysely": "^0.27.4",
+    "mini-svg-data-uri": "^1.4.4",
+    "mysql2": "^3.11.5",
+    "prisma": "^5.22.0",
+    "react-qr-code": "^2.0.15",
+    "resend": "^4.0.1",
+    "shiki": "^1.24.0",
+    "three": "^0.168.0",
+    "ua-parser-js": "^0.7.39",
+
     "@ai-sdk/xai": "^1.2.14",
     "@ant-design/nextjs-registry": "^1.0.2",
     "@datastax/astra-db-ts": "^2.0.0-preview.5",
@@ -139,6 +163,12 @@
     "zustand": "^5.0.3"
   },
   "devDependencies": {
+    "@types/canvas-confetti": "^1.9.0",
+    "@types/three": "^0.168.0",
+    "@types/ua-parser-js": "^0.7.39",
+    "dotenv": "^16.4.7",
+    "dotenv-cli": "^7.4.4",
+
     "@shikijs/compat": "^1.1.7",
     "@tailwindcss/typography": "^0.5.16",
     "@types/bun": "latest",
@@ -187,5 +217,8 @@
     "core-js",
     "protobufjs",
     "unrs-resolver"
-  ]
+  ],
+  "overrides": {
+    "whatwg-url": "^14.0.0"
+  }
 }
