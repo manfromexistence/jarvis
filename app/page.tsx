@@ -15,7 +15,7 @@ export default function Page() {
       {/* <div>
         {JSON.stringify(session)}
       </div> */}
-      <Button onClick={() => { authClient.signIn.anonymous() }}>SignIn</Button>
+      <Button onClick={() => { authClient.signIn.anonymous(); }}>SignIn</Button>
       {/* <Button onClick={signUp}>SignUp</Button> */}
       <SignUp />
       <SignIn />
