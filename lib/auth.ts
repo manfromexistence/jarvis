@@ -20,6 +20,8 @@ import { createPool } from "mysql2/promise";
 import { nextCookies } from "better-auth/next-js";
 import { passkey } from "better-auth/plugins/passkey";
 import { NeonDialect } from "kysely-neon"
+import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { db } from "@/lib/db";
 
 const from = process.env.BETTER_AUTH_EMAIL || "delivered@resend.dev";
 const to = process.env.TEST_EMAIL || "";
@@ -54,10 +56,9 @@ const STARTER_PRICE_ID = {
 
 export const auth = betterAuth({
 	appName: "Better Auth Demo",
-	database: {
-		dialect,
-		type: "postgres"
-	},
+	database: drizzleAdapter(db, {
+		provider: "sqlite", // or "pg" or "mysql"
+	  }), 
 	emailVerification: {
 		async sendVerificationEmail({ user, url }) {
 			const res = await resend.emails.send({
