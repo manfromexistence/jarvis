@@ -156,7 +156,7 @@ export default function SignUp() {
 								password,
 								name: `${firstName} ${lastName}`,
 								image: image ? await convertImageToBase64(image) : "",
-								callbackURL: "/dashboard",
+								callbackURL: "/",
 								fetchOptions: {
 									onResponse: () => {
 										setLoading(false);
