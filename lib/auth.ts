@@ -12,30 +12,32 @@ import {
 	customSession,
 } from "better-auth/plugins";
 import { reactInvitationEmail } from "./email/invitation";
-import { LibsqlDialect } from "@libsql/kysely-libsql";
+// import { LibsqlDialect } from "@libsql/kysely-libsql";
 import { reactResetPasswordEmail } from "./email/reset-password";
 import { resend } from "./email/resend";
 import { MysqlDialect } from "kysely";
 import { createPool } from "mysql2/promise";
 import { nextCookies } from "better-auth/next-js";
 import { passkey } from "better-auth/plugins/passkey";
-// import { expo } from "@better-auth/expo";
-// import { stripe } from "@better-auth/stripe";
-// import { Stripe } from "stripe";
+import { NeonDialect } from "kysely-neon"
 
 const from = process.env.BETTER_AUTH_EMAIL || "delivered@resend.dev";
 const to = process.env.TEST_EMAIL || "";
 
-const libsql = new LibsqlDialect({
-	url: process.env.TURSO_DATABASE_URL || "",
-	authToken: process.env.TURSO_AUTH_TOKEN || "",
+// const libsql = new LibsqlDialect({
+// 	url: process.env.TURSO_DATABASE_URL || "",
+// 	authToken: process.env.TURSO_AUTH_TOKEN || "",
+// });
+
+const neon = new NeonDialect({
+	connectionString: process.env.DATABASE_URL || "",
 });
 
 const mysql = process.env.USE_MYSQL
 	? new MysqlDialect(createPool(process.env.MYSQL_DATABASE_URL || ""))
 	: null;
 
-const dialect:any = process.env.USE_MYSQL ? mysql : libsql;
+const dialect = neon;
 
 if (!dialect) {
 	throw new Error("No dialect found");
@@ -54,7 +56,7 @@ export const auth = betterAuth({
 	appName: "Better Auth Demo",
 	database: {
 		dialect,
-		type: process.env.USE_MYSQL ? "mysql" : "sqlite",
+		type: "postgres"
 	},
 	emailVerification: {
 		async sendVerificationEmail({ user, url }) {
@@ -131,10 +133,9 @@ export const auth = betterAuth({
 						inviteLink:
 							process.env.NODE_ENV === "development"
 								? `http://localhost:3000/accept-invitation/${data.id}`
-								: `${
-										process.env.BETTER_AUTH_URL ||
-										"https://demo.better-auth.com"
-									}/accept-invitation/${data.id}`,
+								: `${process.env.BETTER_AUTH_URL ||
+								"https://demo.better-auth.com"
+								}/accept-invitation/${data.id}`,
 					}),
 				});
 			},
