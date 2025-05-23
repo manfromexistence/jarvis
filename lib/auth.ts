@@ -11,54 +11,24 @@ import {
 	oidcProvider,
 	customSession,
 } from "better-auth/plugins";
-import { reactInvitationEmail } from "./email/invitation";
-// import { LibsqlDialect } from "@libsql/kysely-libsql";
-import { reactResetPasswordEmail } from "./email/reset-password";
-import { resend } from "./email/resend";
-import { MysqlDialect } from "kysely";
-import { createPool } from "mysql2/promise";
 import { nextCookies } from "better-auth/next-js";
-import { passkey } from "better-auth/plugins/passkey";
-import { NeonDialect } from "kysely-neon"
+import { passkey } from "better-auth/plugins/passkey";;
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { db } from "@/lib/db";
+import { reactInvitationEmail } from "@/lib/email/invitation";
+import { reactResetPasswordEmail } from "@/lib/email/reset-password";
+import { resend } from "@/lib/email/resend";
+import { db } from "@/db/drizzle";
+import { schema } from "@/db/schema";
 
 const from = process.env.BETTER_AUTH_EMAIL || "delivered@resend.dev";
 const to = process.env.TEST_EMAIL || "";
 
-// const libsql = new LibsqlDialect({
-// 	url: process.env.TURSO_DATABASE_URL || "",
-// 	authToken: process.env.TURSO_AUTH_TOKEN || "",
-// });
-
-const neon = new NeonDialect({
-	connectionString: process.env.DATABASE_URL || "",
-});
-
-const mysql = process.env.USE_MYSQL
-	? new MysqlDialect(createPool(process.env.MYSQL_DATABASE_URL || ""))
-	: null;
-
-const dialect = neon;
-
-if (!dialect) {
-	throw new Error("No dialect found");
-}
-
-const PROFESSION_PRICE_ID = {
-	default: "price_1QxWZ5LUjnrYIrml5Dnwnl0X",
-	annual: "price_1QxWZTLUjnrYIrmlyJYpwyhz",
-};
-const STARTER_PRICE_ID = {
-	default: "price_1QxWWtLUjnrYIrmleljPKszG",
-	annual: "price_1QxWYqLUjnrYIrmlonqPThVF",
-};
-
 export const auth = betterAuth({
-	appName: "Better Auth Demo",
+	appName: "Friday - Your Ai Friend.",
 	database: drizzleAdapter(db, {
-		provider: "sqlite", // or "pg" or "mysql"
-	  }), 
+		provider: "pg",
+		schema: schema,
+	  }),
 	emailVerification: {
 		async sendVerificationEmail({ user, url }) {
 			const res = await resend.emails.send({
@@ -90,10 +60,6 @@ export const auth = betterAuth({
 		},
 	},
 	socialProviders: {
-		// facebook: {
-		// 	clientId: process.env.FACEBOOK_CLIENT_ID || "",
-		// 	clientSecret: process.env.FACEBOOK_CLIENT_SECRET || "",
-		// },
 		github: {
 			clientId: process.env.GITHUB_CLIENT_ID || "",
 			clientSecret: process.env.GITHUB_CLIENT_SECRET || "",
@@ -102,6 +68,10 @@ export const auth = betterAuth({
 			clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || "",
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
 		},
+		// facebook: {
+		// 	clientId: process.env.FACEBOOK_CLIENT_ID || "",
+		// 	clientSecret: process.env.FACEBOOK_CLIENT_SECRET || "",
+		// },
 		// discord: {
 		// 	clientId: process.env.DISCORD_CLIENT_ID || "",
 		// 	clientSecret: process.env.DISCORD_CLIENT_SECRET || "",
@@ -175,32 +145,6 @@ export const auth = betterAuth({
 				},
 			};
 		}),
-		// stripe({
-		// 	stripeClient: new Stripe(process.env.STRIPE_KEY || "sk_test_"),
-		// 	stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET!,
-		// 	subscription: {
-		// 		enabled: true,
-		// 		plans: [
-		// 			{
-		// 				name: "Starter",
-		// 				priceId: STARTER_PRICE_ID.default,
-		// 				annualDiscountPriceId: STARTER_PRICE_ID.annual,
-		// 				freeTrial: {
-		// 					days: 7,
-		// 				},
-		// 			},
-		// 			{
-		// 				name: "Professional",
-		// 				priceId: PROFESSION_PRICE_ID.default,
-		// 				annualDiscountPriceId: PROFESSION_PRICE_ID.annual,
-		// 			},
-		// 			{
-		// 				name: "Enterprise",
-		// 			},
-		// 		],
-		// 	},
-		// }),
-		// expo(),
 	],
 	trustedOrigins: ["exp://"],
 });
